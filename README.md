@@ -88,3 +88,7 @@ scripts/build-graph.mjs                # 编译脚本
 ## 许可
 
 私人博士知识库；论文元数据与观点仅供个人学习研究使用。
+
+## GitHub Pages
+
+站点由 **GitHub Actions** 发布（工作流：`.github/workflows/deploy-pages.yml`）。线上地址：<https://daisy-butter.github.io/phd-robotics-atlas/>。
