@@ -1,0 +1,22 @@
+{
+  "name": "phd-robotics-atlas",
+  "version": "0.1.0",
+  "private": true,
+  "description": "博士机器人控制知识谱系 — 论文 / Insight / Topic 交互图谱",
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-graph.mjs",
+    "predev": "npm run build:data",
+    "dev": "vite",
+    "prebuild": "npm run build:data",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "force-graph": "^1.49.5",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,116 @@
+# 边类型: cites | extends | contrasts | uses_method | shares_benchmark | motivates | discussed_in
+edges:
+  # Paper ↔ Topic (motivates: paper advances / sits in topic)
+  - source: paper-pact-vla
+    target: topic-vla
+    type: motivates
+    note: 延迟鲁棒部署属于 VLA 落地主线
+  - source: paper-pact-vla
+    target: topic-agentic
+    type: motivates
+    note: 异步决策窗口与 agentic 闭环相关
+  - source: paper-haf-vla
+    target: topic-vla
+    type: motivates
+  - source: paper-haf-vla
+    target: topic-wbc
+    type: motivates
+  - source: paper-adarsi
+    target: topic-rsi
+    type: motivates
+  - source: paper-adarsi
+    target: topic-agentic
+    type: motivates
+  - source: paper-fast-vla
+    target: topic-vla
+    type: motivates
+  - source: paper-wholebody-wam
+    target: topic-wam
+    type: motivates
+  - source: paper-wholebody-wam
+    target: topic-wbc
+    type: motivates
+
+  # Paper ↔ Paper
+  - source: paper-pact-vla
+    target: paper-fast-vla
+    type: contrasts
+    note: 都解决部署效率，但一个吃延迟窗口、一个拆理解/伺服
+  - source: paper-haf-vla
+    target: paper-wholebody-wam
+    type: extends
+    note: 分层动作生成 vs 世界–动作先验接 WBC，互补的全身结构化路径
+  - source: paper-adarsi
+    target: paper-pact-vla
+    type: shares_benchmark
+    note: 同属可落地 agentic / 部署叙事（概念邻近，非同一数据集）
+  - source: paper-fast-vla
+    target: paper-haf-vla
+    type: contrasts
+    note: 效率解耦 vs 全身分层结构，不同优化轴
+
+  # Insight ↔ Paper (discussed_in)
+  - source: insight-deploy-systems
+    target: paper-pact-vla
+    type: discussed_in
+  - source: insight-deploy-systems
+    target: paper-fast-vla
+    type: discussed_in
+  - source: insight-humanoid-hierarchy
+    target: paper-haf-vla
+    type: discussed_in
+  - source: insight-humanoid-hierarchy
+    target: paper-wholebody-wam
+    type: discussed_in
+  - source: insight-rsi-budget
+    target: paper-adarsi
+    type: discussed_in
+  - source: insight-four-threads
+    target: paper-pact-vla
+    type: discussed_in
+  - source: insight-four-threads
+    target: paper-haf-vla
+    type: discussed_in
+  - source: insight-four-threads
+    target: paper-adarsi
+    type: discussed_in
+  - source: insight-four-threads
+    target: paper-fast-vla
+    type: discussed_in
+  - source: insight-four-threads
+    target: paper-wholebody-wam
+    type: discussed_in
+
+  # Insight ↔ Topic
+  - source: insight-four-threads
+    target: topic-vla
+    type: motivates
+  - source: insight-four-threads
+    target: topic-wam
+    type: motivates
+  - source: insight-four-threads
+    target: topic-wbc
+    type: motivates
+  - source: insight-four-threads
+    target: topic-rsi
+    type: motivates
+  - source: insight-four-threads
+    target: topic-agentic
+    type: motivates
+
+  # Digest
+  - source: digest-2026-10-28
+    target: paper-pact-vla
+    type: discussed_in
+  - source: digest-2026-10-28
+    target: paper-haf-vla
+    type: discussed_in
+  - source: digest-2026-10-28
+    target: paper-adarsi
+    type: discussed_in
+  - source: digest-2026-10-28
+    target: paper-fast-vla
+    type: discussed_in
+  - source: digest-2026-10-28
+    target: paper-wholebody-wam
+    type: discussed_in
