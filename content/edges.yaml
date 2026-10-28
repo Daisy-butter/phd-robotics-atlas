@@ -1,116 +1,97 @@
-# 边类型: cites | extends | contrasts | uses_method | shares_benchmark | motivates | discussed_in
+# 边类型见 SCHEMA.md
 edges:
-  # Paper ↔ Topic (motivates: paper advances / sits in topic)
+  # Paper → Topic
   - source: paper-pact-vla
     target: topic-vla
-    type: motivates
-    note: 延迟鲁棒部署属于 VLA 落地主线
+    type: belongs_to_topic
+    note: 延迟鲁棒 VLA 真机部署
   - source: paper-pact-vla
     target: topic-agentic
-    type: motivates
-    note: 异步决策窗口与 agentic 闭环相关
+    type: belongs_to_topic
+    note: 异步决策窗口与 agentic 闭环
   - source: paper-haf-vla
     target: topic-vla
-    type: motivates
+    type: belongs_to_topic
   - source: paper-haf-vla
     target: topic-wbc
-    type: motivates
+    type: belongs_to_topic
   - source: paper-adarsi
     target: topic-rsi
-    type: motivates
+    type: belongs_to_topic
   - source: paper-adarsi
     target: topic-agentic
-    type: motivates
+    type: belongs_to_topic
   - source: paper-fast-vla
     target: topic-vla
-    type: motivates
+    type: belongs_to_topic
   - source: paper-wholebody-wam
     target: topic-wam
-    type: motivates
+    type: belongs_to_topic
   - source: paper-wholebody-wam
     target: topic-wbc
-    type: motivates
+    type: belongs_to_topic
 
-  # Paper ↔ Paper
+  # Paper → Method (uses_method; 与 frontmatter methods[] 一致，便于阅读)
+  - source: paper-pact-vla
+    target: method-vla
+    type: uses_method
+  - source: paper-pact-vla
+    target: method-agentic
+    type: uses_method
+  - source: paper-fast-vla
+    target: method-vla
+    type: uses_method
+  - source: paper-haf-vla
+    target: method-vla
+    type: uses_method
+  - source: paper-haf-vla
+    target: method-wbc
+    type: uses_method
+  - source: paper-adarsi
+    target: method-rsi
+    type: uses_method
+  - source: paper-adarsi
+    target: method-agentic
+    type: uses_method
+  - source: paper-wholebody-wam
+    target: method-wam
+    type: uses_method
+  - source: paper-wholebody-wam
+    target: method-wbc
+    type: uses_method
+
+  # Paper ↔ Paper（谱系关系）
   - source: paper-pact-vla
     target: paper-fast-vla
     type: contrasts
-    note: 都解决部署效率，但一个吃延迟窗口、一个拆理解/伺服
+    note: 部署效率：延迟窗口重选 chunk vs 理解/伺服解耦
   - source: paper-haf-vla
     target: paper-wholebody-wam
     type: extends
-    note: 分层动作生成 vs 世界–动作先验接 WBC，互补的全身结构化路径
-  - source: paper-adarsi
-    target: paper-pact-vla
-    type: shares_benchmark
-    note: 同属可落地 agentic / 部署叙事（概念邻近，非同一数据集）
+    note: 分层动作生成 vs WAM 先验接 WBC，互补的全身结构化路径
   - source: paper-fast-vla
     target: paper-haf-vla
     type: contrasts
     note: 效率解耦 vs 全身分层结构，不同优化轴
-
-  # Insight ↔ Paper (discussed_in)
-  - source: insight-deploy-systems
+  - source: paper-adarsi
     target: paper-pact-vla
-    type: discussed_in
-  - source: insight-deploy-systems
-    target: paper-fast-vla
-    type: discussed_in
-  - source: insight-humanoid-hierarchy
-    target: paper-haf-vla
-    type: discussed_in
-  - source: insight-humanoid-hierarchy
-    target: paper-wholebody-wam
-    type: discussed_in
-  - source: insight-rsi-budget
-    target: paper-adarsi
-    type: discussed_in
-  - source: insight-four-threads
-    target: paper-pact-vla
-    type: discussed_in
-  - source: insight-four-threads
-    target: paper-haf-vla
-    type: discussed_in
-  - source: insight-four-threads
-    target: paper-adarsi
-    type: discussed_in
-  - source: insight-four-threads
-    target: paper-fast-vla
-    type: discussed_in
-  - source: insight-four-threads
-    target: paper-wholebody-wam
-    type: discussed_in
+    type: related_to
+    note: 同属可落地 agentic / 部署叙事（概念邻近）
 
-  # Insight ↔ Topic
-  - source: insight-four-threads
+  # Method ↔ Topic（路线支撑问题簇，可选）
+  - source: method-vla
     target: topic-vla
-    type: motivates
-  - source: insight-four-threads
+    type: related_to
+    note: VLA 路线主要服务视觉–语言–动作部署问题
+  - source: method-wam
     target: topic-wam
-    type: motivates
-  - source: insight-four-threads
+    type: related_to
+  - source: method-wbc
     target: topic-wbc
-    type: motivates
-  - source: insight-four-threads
+    type: related_to
+  - source: method-rsi
     target: topic-rsi
-    type: motivates
-  - source: insight-four-threads
+    type: related_to
+  - source: method-agentic
     target: topic-agentic
-    type: motivates
-
-  # Digest
-  - source: digest-2026-10-28
-    target: paper-pact-vla
-    type: discussed_in
-  - source: digest-2026-10-28
-    target: paper-haf-vla
-    type: discussed_in
-  - source: digest-2026-10-28
-    target: paper-adarsi
-    type: discussed_in
-  - source: digest-2026-10-28
-    target: paper-fast-vla
-    type: discussed_in
-  - source: digest-2026-10-28
-    target: paper-wholebody-wam
-    type: discussed_in
+    type: related_to

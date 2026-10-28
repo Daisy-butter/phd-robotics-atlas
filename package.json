@@ -2,7 +2,7 @@
   "name": "phd-robotics-atlas",
   "version": "0.1.0",
   "private": true,
-  "description": "博士机器人控制知识谱系 — 论文 / Insight / Topic 交互图谱",
+  "description": "博士机器人控制知识谱系 — Paper / Topic / Method 交互图谱",
   "type": "module",
   "scripts": {
     "build:data": "node scripts/build-graph.mjs",

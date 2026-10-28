@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 /**
- * Compile content/*.md + edges.yaml → data/graph.json
+ * Compile content → data/graph.json
+ * Graph nodes: papers, topics, methods (+ optional benchmarks, labs, trends)
+ * Annotations: insights, digests (NOT in nodes[])
  */
 import fs from 'fs';
 import path from 'path';
@@ -12,6 +14,15 @@ const ROOT = path.resolve(__dirname, '..');
 const CONTENT = path.join(ROOT, 'content');
 const OUT = path.join(ROOT, 'data', 'graph.json');
 const PUBLIC_OUT = path.join(ROOT, 'public', 'graph.json');
+
+const GRAPH_DIRS = {
+  papers: 'Paper',
+  topics: 'Topic',
+  methods: 'Method',
+  benchmarks: 'Benchmark',
+  labs: 'Lab',
+  trends: 'Trend',
+};
 
 function parseFrontmatter(raw) {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
@@ -33,11 +44,25 @@ function walkMd(dir) {
   return out;
 }
 
-const TYPE_DIRS = ['papers', 'insights', 'topics', 'digests'];
+function normalizeType(t, fallback) {
+  const map = {
+    paper: 'Paper',
+    topic: 'Topic',
+    method: 'Method',
+    benchmark: 'Benchmark',
+    lab: 'Lab',
+    trend: 'Trend',
+    insight: 'Insight',
+    digest: 'Digest',
+  };
+  const key = String(t || fallback || '').toLowerCase();
+  return map[key] || t || fallback;
+}
+
 const nodes = [];
 const byId = new Map();
 
-for (const dir of TYPE_DIRS) {
+for (const [dir, defaultType] of Object.entries(GRAPH_DIRS)) {
   for (const file of walkMd(path.join(CONTENT, dir))) {
     const raw = fs.readFileSync(file, 'utf8');
     const { meta, body } = parseFrontmatter(raw);
@@ -47,7 +72,7 @@ for (const dir of TYPE_DIRS) {
     }
     const node = {
       id: meta.id,
-      type: meta.type || dir.replace(/s$/, '').replace(/^./, (c) => c.toUpperCase()),
+      type: normalizeType(meta.type, defaultType),
       title: meta.title || meta.id,
       label: meta.shortLabel || meta.title || meta.id,
       team: meta.team || null,
@@ -56,25 +81,50 @@ for (const dir of TYPE_DIRS) {
       paperUrl: meta.paperUrl || null,
       projectUrl: meta.projectUrl || null,
       topics: meta.topics || [],
+      methods: meta.methods || [],
       relatedPapers: meta.relatedPapers || [],
       papers: meta.papers || [],
       description: meta.description || null,
       body,
       sourceFile: path.relative(ROOT, file),
     };
-    // Normalize type casing
-    const t = String(node.type);
-    if (/^paper$/i.test(t)) node.type = 'Paper';
-    else if (/^insight$/i.test(t)) node.type = 'Insight';
-    else if (/^topic$/i.test(t)) node.type = 'Topic';
-    else if (/^digest$/i.test(t)) node.type = 'Digest';
-
-    if (byId.has(node.id)) {
-      throw new Error(`Duplicate node id: ${node.id}`);
-    }
+    if (byId.has(node.id)) throw new Error(`Duplicate node id: ${node.id}`);
     byId.set(node.id, node);
     nodes.push(node);
   }
+}
+
+const insights = [];
+for (const file of walkMd(path.join(CONTENT, 'insights'))) {
+  const raw = fs.readFileSync(file, 'utf8');
+  const { meta, body } = parseFrontmatter(raw);
+  if (!meta.id) continue;
+  insights.push({
+    id: meta.id,
+    type: 'Insight',
+    title: meta.title || meta.id,
+    date: meta.date || null,
+    relatedPapers: meta.relatedPapers || [],
+    topics: meta.topics || [],
+    body,
+    sourceFile: path.relative(ROOT, file),
+  });
+}
+
+const digests = [];
+for (const file of walkMd(path.join(CONTENT, 'digests'))) {
+  const raw = fs.readFileSync(file, 'utf8');
+  const { meta, body } = parseFrontmatter(raw);
+  if (!meta.id) continue;
+  digests.push({
+    id: meta.id,
+    type: 'Digest',
+    title: meta.title || meta.id,
+    date: meta.date || null,
+    papers: meta.papers || [],
+    body,
+    sourceFile: path.relative(ROOT, file),
+  });
 }
 
 const edgesPath = path.join(CONTENT, 'edges.yaml');
@@ -90,50 +140,35 @@ if (fs.existsSync(edgesPath)) {
   }));
 }
 
-// Auto topic edges from paper.topics if missing
 const edgeKey = (s, t, ty) => `${s}|${t}|${ty}`;
 const existing = new Set(edges.map((e) => edgeKey(e.source, e.target, e.type)));
+
 for (const n of nodes) {
   if (n.type === 'Paper' && Array.isArray(n.topics)) {
     for (const tid of n.topics) {
-      const k = edgeKey(n.id, tid, 'motivates');
+      const k = edgeKey(n.id, tid, 'belongs_to_topic');
       if (!existing.has(k) && byId.has(tid)) {
         edges.push({
-          id: `auto-${n.id}-${tid}`,
+          id: `auto-bt-${n.id}-${tid}`,
           source: n.id,
           target: tid,
-          type: 'motivates',
+          type: 'belongs_to_topic',
           note: 'from paper.topics',
         });
         existing.add(k);
       }
     }
   }
-  if (n.type === 'Insight' && Array.isArray(n.relatedPapers)) {
-    for (const pid of n.relatedPapers) {
-      const k = edgeKey(n.id, pid, 'discussed_in');
-      if (!existing.has(k) && byId.has(pid)) {
+  if (n.type === 'Paper' && Array.isArray(n.methods)) {
+    for (const mid of n.methods) {
+      const k = edgeKey(n.id, mid, 'uses_method');
+      if (!existing.has(k) && byId.has(mid)) {
         edges.push({
-          id: `auto-${n.id}-${pid}`,
+          id: `auto-um-${n.id}-${mid}`,
           source: n.id,
-          target: pid,
-          type: 'discussed_in',
-          note: 'from insight.relatedPapers',
-        });
-        existing.add(k);
-      }
-    }
-  }
-  if (n.type === 'Digest' && Array.isArray(n.papers)) {
-    for (const pid of n.papers) {
-      const k = edgeKey(n.id, pid, 'discussed_in');
-      if (!existing.has(k) && byId.has(pid)) {
-        edges.push({
-          id: `auto-${n.id}-${pid}`,
-          source: n.id,
-          target: pid,
-          type: 'discussed_in',
-          note: 'from digest.papers',
+          target: mid,
+          type: 'uses_method',
+          note: 'from paper.methods',
         });
         existing.add(k);
       }
@@ -141,11 +176,25 @@ for (const n of nodes) {
   }
 }
 
-// Validate
 const missing = [];
 for (const e of edges) {
   if (!byId.has(e.source)) missing.push(`edge ${e.id}: missing source ${e.source}`);
   if (!byId.has(e.target)) missing.push(`edge ${e.id}: missing target ${e.target}`);
+}
+if (missing.length) {
+  console.error(missing.join('\n'));
+  process.exit(1);
+}
+
+for (const ins of insights) {
+  for (const pid of ins.relatedPapers) {
+    if (!byId.has(pid)) missing.push(`insight ${ins.id}: unknown paper ${pid}`);
+  }
+}
+for (const d of digests) {
+  for (const pid of d.papers) {
+    if (!byId.has(pid)) missing.push(`digest ${d.id}: unknown paper ${pid}`);
+  }
 }
 if (missing.length) {
   console.error(missing.join('\n'));
@@ -158,9 +207,14 @@ const graph = {
     generatedAt: new Date().toISOString(),
     nodeCount: nodes.length,
     edgeCount: edges.length,
+    insightCount: insights.length,
+    digestCount: digests.length,
+    defaultVisibleTypes: ['Paper', 'Topic', 'Method'],
   },
   nodes,
   edges,
+  insights,
+  digests,
 };
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
@@ -169,4 +223,6 @@ const json = JSON.stringify(graph, null, 2);
 fs.writeFileSync(OUT, json);
 fs.writeFileSync(PUBLIC_OUT, json);
 
-console.log(`Wrote ${nodes.length} nodes, ${edges.length} edges → data/graph.json & public/graph.json`);
+console.log(
+  `Wrote ${nodes.length} nodes, ${edges.length} edges, ${insights.length} insights, ${digests.length} digests`
+);
