@@ -8,6 +8,7 @@ coreIdea: "任务理解只跑一次大 VLM，之后由轻量 actor 闭环执行�
 paperUrl: "https://arxiv.org/abs/2610.21389"
 projectUrl: "https://garfield-kh.github.io/FastVLA"
 topics: [topic-vla]
+methods: [method-vla]
 ---
 
 端到端大 VLA 每步都跑完整多模态栈，控制频率与功耗很难同时满足。Fast-VLA 把「理解」与「伺服」解耦：语义一次到位，闭环留给轻量策略。

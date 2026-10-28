@@ -8,6 +8,7 @@ coreIdea: "把异步推理延迟当作决策窗口，在提交前用更新观测
 paperUrl: "https://arxiv.org/abs/2610.28019"
 projectUrl: null
 topics: [topic-vla, topic-agentic]
+methods: [method-vla, method-agentic]
 ---
 
 异步推理场景下，模型输出滞后于环境变化。PACT-VLA 的核心不是再压低单次推理时延，而是承认延迟不可避免，并把这段「等待窗口」变成可利用的信息：用更新后的观测在提交前重选 / 校正 chunk。

@@ -1,9 +1,16 @@
 {
   "meta": {
     "title": "机器人控制知识谱系",
-    "generatedAt": "2026-10-28T03:51:17.080Z",
+    "generatedAt": "2026-10-28T04:09:51.153Z",
     "nodeCount": 15,
-    "edgeCount": 33
+    "edgeCount": 27,
+    "insightCount": 4,
+    "digestCount": 1,
+    "defaultVisibleTypes": [
+      "Paper",
+      "Topic",
+      "Method"
+    ]
   },
   "nodes": [
     {
@@ -19,6 +26,10 @@
       "topics": [
         "topic-rsi",
         "topic-agentic"
+      ],
+      "methods": [
+        "method-rsi",
+        "method-agentic"
       ],
       "relatedPapers": [],
       "papers": [],
@@ -38,6 +49,9 @@
       "projectUrl": "https://garfield-kh.github.io/FastVLA",
       "topics": [
         "topic-vla"
+      ],
+      "methods": [
+        "method-vla"
       ],
       "relatedPapers": [],
       "papers": [],
@@ -59,6 +73,10 @@
         "topic-vla",
         "topic-wbc"
       ],
+      "methods": [
+        "method-vla",
+        "method-wbc"
+      ],
       "relatedPapers": [],
       "papers": [],
       "description": null,
@@ -78,6 +96,10 @@
       "topics": [
         "topic-vla",
         "topic-agentic"
+      ],
+      "methods": [
+        "method-vla",
+        "method-agentic"
       ],
       "relatedPapers": [],
       "papers": [],
@@ -99,109 +121,15 @@
         "topic-wam",
         "topic-wbc"
       ],
+      "methods": [
+        "method-wam",
+        "method-wbc"
+      ],
       "relatedPapers": [],
       "papers": [],
       "description": null,
       "body": "WAM 提供可泛化的世界–动作先验，WBC 提供可解释、可约束的全身执行。WholeBodyWAM 的关键是接口语义：先验输出如何对齐到可复用的全身控制原语，而不是端到端抹平结构。",
       "sourceFile": "content/papers/wholebody-wam.md"
-    },
-    {
-      "id": "insight-deploy-systems",
-      "type": "Insight",
-      "title": "主战场转向部署系统化",
-      "label": "主战场转向部署系统化",
-      "team": null,
-      "date": "2026-10-28",
-      "coreIdea": null,
-      "paperUrl": null,
-      "projectUrl": null,
-      "topics": [
-        "topic-vla",
-        "topic-agentic"
-      ],
-      "relatedPapers": [
-        "paper-pact-vla",
-        "paper-fast-vla"
-      ],
-      "papers": [],
-      "description": null,
-      "body": "评审与工业落地越来越看控制频率、真机协议与延迟鲁棒，而不是单纯「更大的端到端 VLA」。PACT 把延迟当窗口，Fast-VLA 把理解与伺服拆开——两条互补的部署路线。",
-      "sourceFile": "content/insights/insight-deploy-systems.md"
-    },
-    {
-      "id": "insight-four-threads",
-      "type": "Insight",
-      "title": "2026 秋四条交织线",
-      "label": "2026 秋四条交织线",
-      "team": null,
-      "date": "2026-10-28",
-      "coreIdea": null,
-      "paperUrl": null,
-      "projectUrl": null,
-      "topics": [
-        "topic-vla",
-        "topic-wam",
-        "topic-wbc",
-        "topic-rsi",
-        "topic-agentic"
-      ],
-      "relatedPapers": [
-        "paper-pact-vla",
-        "paper-haf-vla",
-        "paper-adarsi",
-        "paper-fast-vla",
-        "paper-wholebody-wam"
-      ],
-      "papers": [],
-      "description": null,
-      "body": "当前热潮可概括为：① 部署系统化（异步 / chunk / 延迟）② 人形全身结构化 ③ 为控制服务的世界模型 ④ Agentic + RSI。合起来是「通用语义先验 × 结构化全身接口 × 延迟感知部署 × 可归因自我改进」。",
-      "sourceFile": "content/insights/insight-four-threads.md"
-    },
-    {
-      "id": "insight-humanoid-hierarchy",
-      "type": "Insight",
-      "title": "人形：分层动作 + 可复用 WBC 接口",
-      "label": "人形：分层动作 + 可复用 WBC 接口",
-      "team": null,
-      "date": "2026-10-28",
-      "coreIdea": null,
-      "paperUrl": null,
-      "projectUrl": null,
-      "topics": [
-        "topic-vla",
-        "topic-wbc",
-        "topic-wam"
-      ],
-      "relatedPapers": [
-        "paper-haf-vla",
-        "paper-wholebody-wam"
-      ],
-      "papers": [],
-      "description": null,
-      "body": "核心问题从「会不会抓」变成「基座/腰姿错了会不会逼上身补偿」。HAF-VLA 从动作生成侧写结构；WholeBodyWAM 从先验接 WBC 接口侧写结构——同一叙事的两端。",
-      "sourceFile": "content/insights/insight-humanoid-hierarchy.md"
-    },
-    {
-      "id": "insight-rsi-budget",
-      "type": "Insight",
-      "title": "RSI 要回答：先改谁、何时改权重",
-      "label": "RSI 要回答：先改谁、何时改权重",
-      "team": null,
-      "date": "2026-10-28",
-      "coreIdea": null,
-      "paperUrl": null,
-      "projectUrl": null,
-      "topics": [
-        "topic-rsi",
-        "topic-agentic"
-      ],
-      "relatedPapers": [
-        "paper-adarsi"
-      ],
-      "papers": [],
-      "description": null,
-      "body": "物理 RSI 若没有可验证反馈与安全护栏，很容易变成不可控的在线微调。AdaRSI 的「先 harness、后权重、按预算」是可工程化的默认策略，值得当作研究假设的基线。",
-      "sourceFile": "content/insights/insight-rsi-budget.md"
     },
     {
       "id": "topic-agentic",
@@ -214,6 +142,7 @@
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
       "papers": [],
       "description": "Agentic Robotics：工具调用、规划、记忆与物理执行闭环；与 VLA 部署系统化、RSI 紧密交织。",
@@ -231,6 +160,7 @@
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
       "papers": [],
       "description": "Recursive Self-Improvement：具身智能体在失败反馈下自我改进；护栏、归因与改谁（harness vs weights）是硬题。",
@@ -248,6 +178,7 @@
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
       "papers": [],
       "description": "Vision-Language-Action：视觉–语言–动作端到端与分层策略，当前具身控制的主流语义先验形态。",
@@ -265,6 +196,7 @@
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
       "papers": [],
       "description": "World-Action Model：为控制服务的世界–动作模型，强调长视野预测与 OOD 泛化，而非像素级重建。",
@@ -282,6 +214,7 @@
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
       "papers": [],
       "description": "全身控制：基座、腰、臂、手协同；与 VLA/WAM 的接口语义是 2026 人形落地的关键战场。",
@@ -289,27 +222,94 @@
       "sourceFile": "content/topics/wbc.md"
     },
     {
-      "id": "digest-2026-10-28",
-      "type": "Digest",
-      "title": "2026-10-28 首轮候选五篇",
-      "label": "2026-10-28 首轮候选五篇",
+      "id": "method-agentic",
+      "type": "Method",
+      "title": "Agentic Embodied Stack",
+      "label": "Agentic",
       "team": null,
-      "date": "2026-10-28",
+      "date": null,
       "coreIdea": null,
       "paperUrl": null,
       "projectUrl": null,
       "topics": [],
+      "methods": [],
       "relatedPapers": [],
-      "papers": [
-        "paper-pact-vla",
-        "paper-haf-vla",
-        "paper-adarsi",
-        "paper-fast-vla",
-        "paper-wholebody-wam"
-      ],
-      "description": null,
-      "body": "首日简报候选池：PACT-VLA、HAF-VLA、AdaRSI、Fast-VLA、WholeBodyWAM。建议从中挑 0–1 篇精读，其余 skim。",
-      "sourceFile": "content/digests/digest-2026-10-28.md"
+      "papers": [],
+      "description": "具身智能体栈：工具、检索、提示与闭环决策，与 RSI / 部署协议协同。",
+      "body": "",
+      "sourceFile": "content/methods/agentic.md"
+    },
+    {
+      "id": "method-rsi",
+      "type": "Method",
+      "title": "Recursive Self-Improvement (RSI)",
+      "label": "RSI",
+      "team": null,
+      "date": null,
+      "coreIdea": null,
+      "paperUrl": null,
+      "projectUrl": null,
+      "topics": [],
+      "methods": [],
+      "relatedPapers": [],
+      "papers": [],
+      "description": "递归自我改进：在物理环境中按反馈迭代策略 / harness / 权重，需预算与安全护栏。",
+      "body": "",
+      "sourceFile": "content/methods/rsi.md"
+    },
+    {
+      "id": "method-vla",
+      "type": "Method",
+      "title": "Vision-Language-Action (VLA)",
+      "label": "VLA",
+      "team": null,
+      "date": null,
+      "coreIdea": null,
+      "paperUrl": null,
+      "projectUrl": null,
+      "topics": [],
+      "methods": [],
+      "relatedPapers": [],
+      "papers": [],
+      "description": "视觉–语言–动作端到端或分层策略：多模态语义与低层控制之间的接口与部署效率。",
+      "body": "",
+      "sourceFile": "content/methods/vla.md"
+    },
+    {
+      "id": "method-wam",
+      "type": "Method",
+      "title": "World–Action Model (WAM)",
+      "label": "WAM",
+      "team": null,
+      "date": null,
+      "coreIdea": null,
+      "paperUrl": null,
+      "projectUrl": null,
+      "topics": [],
+      "methods": [],
+      "relatedPapers": [],
+      "papers": [],
+      "description": "世界–动作先验：从预训练世界模型迁移可泛化的动作语义，再对接结构化控制器。",
+      "body": "",
+      "sourceFile": "content/methods/wam.md"
+    },
+    {
+      "id": "method-wbc",
+      "type": "Method",
+      "title": "Whole-Body Control (WBC)",
+      "label": "WBC",
+      "team": null,
+      "date": null,
+      "coreIdea": null,
+      "paperUrl": null,
+      "projectUrl": null,
+      "topics": [],
+      "methods": [],
+      "relatedPapers": [],
+      "papers": [],
+      "description": "全身控制与约束：基座、腰、臂手的结构化接口，可解释、可组合的执行层。",
+      "body": "",
+      "sourceFile": "content/methods/wbc.md"
     }
   ],
   "edges": [
@@ -317,232 +317,279 @@
       "id": "e-0-paper-pact-vla-topic-vla",
       "source": "paper-pact-vla",
       "target": "topic-vla",
-      "type": "motivates",
-      "note": "延迟鲁棒部署属于 VLA 落地主线"
+      "type": "belongs_to_topic",
+      "note": "延迟鲁棒 VLA 真机部署"
     },
     {
       "id": "e-1-paper-pact-vla-topic-agentic",
       "source": "paper-pact-vla",
       "target": "topic-agentic",
-      "type": "motivates",
-      "note": "异步决策窗口与 agentic 闭环相关"
+      "type": "belongs_to_topic",
+      "note": "异步决策窗口与 agentic 闭环"
     },
     {
       "id": "e-2-paper-haf-vla-topic-vla",
       "source": "paper-haf-vla",
       "target": "topic-vla",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-3-paper-haf-vla-topic-wbc",
       "source": "paper-haf-vla",
       "target": "topic-wbc",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-4-paper-adarsi-topic-rsi",
       "source": "paper-adarsi",
       "target": "topic-rsi",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-5-paper-adarsi-topic-agentic",
       "source": "paper-adarsi",
       "target": "topic-agentic",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-6-paper-fast-vla-topic-vla",
       "source": "paper-fast-vla",
       "target": "topic-vla",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-7-paper-wholebody-wam-topic-wam",
       "source": "paper-wholebody-wam",
       "target": "topic-wam",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
       "id": "e-8-paper-wholebody-wam-topic-wbc",
       "source": "paper-wholebody-wam",
       "target": "topic-wbc",
-      "type": "motivates",
+      "type": "belongs_to_topic",
       "note": null
     },
     {
-      "id": "e-9-paper-pact-vla-paper-fast-vla",
+      "id": "e-9-paper-pact-vla-method-vla",
+      "source": "paper-pact-vla",
+      "target": "method-vla",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-10-paper-pact-vla-method-agentic",
+      "source": "paper-pact-vla",
+      "target": "method-agentic",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-11-paper-fast-vla-method-vla",
+      "source": "paper-fast-vla",
+      "target": "method-vla",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-12-paper-haf-vla-method-vla",
+      "source": "paper-haf-vla",
+      "target": "method-vla",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-13-paper-haf-vla-method-wbc",
+      "source": "paper-haf-vla",
+      "target": "method-wbc",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-14-paper-adarsi-method-rsi",
+      "source": "paper-adarsi",
+      "target": "method-rsi",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-15-paper-adarsi-method-agentic",
+      "source": "paper-adarsi",
+      "target": "method-agentic",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-16-paper-wholebody-wam-method-wam",
+      "source": "paper-wholebody-wam",
+      "target": "method-wam",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-17-paper-wholebody-wam-method-wbc",
+      "source": "paper-wholebody-wam",
+      "target": "method-wbc",
+      "type": "uses_method",
+      "note": null
+    },
+    {
+      "id": "e-18-paper-pact-vla-paper-fast-vla",
       "source": "paper-pact-vla",
       "target": "paper-fast-vla",
       "type": "contrasts",
-      "note": "都解决部署效率，但一个吃延迟窗口、一个拆理解/伺服"
+      "note": "部署效率：延迟窗口重选 chunk vs 理解/伺服解耦"
     },
     {
-      "id": "e-10-paper-haf-vla-paper-wholebody-wam",
+      "id": "e-19-paper-haf-vla-paper-wholebody-wam",
       "source": "paper-haf-vla",
       "target": "paper-wholebody-wam",
       "type": "extends",
-      "note": "分层动作生成 vs 世界–动作先验接 WBC，互补的全身结构化路径"
+      "note": "分层动作生成 vs WAM 先验接 WBC，互补的全身结构化路径"
     },
     {
-      "id": "e-11-paper-adarsi-paper-pact-vla",
-      "source": "paper-adarsi",
-      "target": "paper-pact-vla",
-      "type": "shares_benchmark",
-      "note": "同属可落地 agentic / 部署叙事（概念邻近，非同一数据集）"
-    },
-    {
-      "id": "e-12-paper-fast-vla-paper-haf-vla",
+      "id": "e-20-paper-fast-vla-paper-haf-vla",
       "source": "paper-fast-vla",
       "target": "paper-haf-vla",
       "type": "contrasts",
       "note": "效率解耦 vs 全身分层结构，不同优化轴"
     },
     {
-      "id": "e-13-insight-deploy-systems-paper-pact-vla",
-      "source": "insight-deploy-systems",
+      "id": "e-21-paper-adarsi-paper-pact-vla",
+      "source": "paper-adarsi",
       "target": "paper-pact-vla",
-      "type": "discussed_in",
-      "note": null
+      "type": "related_to",
+      "note": "同属可落地 agentic / 部署叙事（概念邻近）"
     },
     {
-      "id": "e-14-insight-deploy-systems-paper-fast-vla",
-      "source": "insight-deploy-systems",
-      "target": "paper-fast-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-15-insight-humanoid-hierarchy-paper-haf-vla",
-      "source": "insight-humanoid-hierarchy",
-      "target": "paper-haf-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-16-insight-humanoid-hierarchy-paper-wholebody-wam",
-      "source": "insight-humanoid-hierarchy",
-      "target": "paper-wholebody-wam",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-17-insight-rsi-budget-paper-adarsi",
-      "source": "insight-rsi-budget",
-      "target": "paper-adarsi",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-18-insight-four-threads-paper-pact-vla",
-      "source": "insight-four-threads",
-      "target": "paper-pact-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-19-insight-four-threads-paper-haf-vla",
-      "source": "insight-four-threads",
-      "target": "paper-haf-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-20-insight-four-threads-paper-adarsi",
-      "source": "insight-four-threads",
-      "target": "paper-adarsi",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-21-insight-four-threads-paper-fast-vla",
-      "source": "insight-four-threads",
-      "target": "paper-fast-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-22-insight-four-threads-paper-wholebody-wam",
-      "source": "insight-four-threads",
-      "target": "paper-wholebody-wam",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-23-insight-four-threads-topic-vla",
-      "source": "insight-four-threads",
+      "id": "e-22-method-vla-topic-vla",
+      "source": "method-vla",
       "target": "topic-vla",
-      "type": "motivates",
-      "note": null
+      "type": "related_to",
+      "note": "VLA 路线主要服务视觉–语言–动作部署问题"
     },
     {
-      "id": "e-24-insight-four-threads-topic-wam",
-      "source": "insight-four-threads",
+      "id": "e-23-method-wam-topic-wam",
+      "source": "method-wam",
       "target": "topic-wam",
-      "type": "motivates",
+      "type": "related_to",
       "note": null
     },
     {
-      "id": "e-25-insight-four-threads-topic-wbc",
-      "source": "insight-four-threads",
+      "id": "e-24-method-wbc-topic-wbc",
+      "source": "method-wbc",
       "target": "topic-wbc",
-      "type": "motivates",
+      "type": "related_to",
       "note": null
     },
     {
-      "id": "e-26-insight-four-threads-topic-rsi",
-      "source": "insight-four-threads",
+      "id": "e-25-method-rsi-topic-rsi",
+      "source": "method-rsi",
       "target": "topic-rsi",
-      "type": "motivates",
+      "type": "related_to",
       "note": null
     },
     {
-      "id": "e-27-insight-four-threads-topic-agentic",
-      "source": "insight-four-threads",
+      "id": "e-26-method-agentic-topic-agentic",
+      "source": "method-agentic",
       "target": "topic-agentic",
-      "type": "motivates",
+      "type": "related_to",
       "note": null
+    }
+  ],
+  "insights": [
+    {
+      "id": "insight-deploy-systems",
+      "type": "Insight",
+      "title": "主战场转向部署系统化",
+      "date": "2026-10-28",
+      "relatedPapers": [
+        "paper-pact-vla",
+        "paper-fast-vla"
+      ],
+      "topics": [
+        "topic-vla",
+        "topic-agentic"
+      ],
+      "body": "评审与工业落地越来越看控制频率、真机协议与延迟鲁棒，而不是单纯「更大的端到端 VLA」。PACT 把延迟当窗口，Fast-VLA 把理解与伺服拆开——两条互补的部署路线。",
+      "sourceFile": "content/insights/insight-deploy-systems.md"
     },
     {
-      "id": "e-28-digest-2026-10-28-paper-pact-vla",
-      "source": "digest-2026-10-28",
-      "target": "paper-pact-vla",
-      "type": "discussed_in",
-      "note": null
+      "id": "insight-four-threads",
+      "type": "Insight",
+      "title": "2026 秋四条交织线",
+      "date": "2026-10-28",
+      "relatedPapers": [
+        "paper-pact-vla",
+        "paper-haf-vla",
+        "paper-adarsi",
+        "paper-fast-vla",
+        "paper-wholebody-wam"
+      ],
+      "topics": [
+        "topic-vla",
+        "topic-wam",
+        "topic-wbc",
+        "topic-rsi",
+        "topic-agentic"
+      ],
+      "body": "当前热潮可概括为：① 部署系统化（异步 / chunk / 延迟）② 人形全身结构化 ③ 为控制服务的世界模型 ④ Agentic + RSI。合起来是「通用语义先验 × 结构化全身接口 × 延迟感知部署 × 可归因自我改进」。",
+      "sourceFile": "content/insights/insight-four-threads.md"
     },
     {
-      "id": "e-29-digest-2026-10-28-paper-haf-vla",
-      "source": "digest-2026-10-28",
-      "target": "paper-haf-vla",
-      "type": "discussed_in",
-      "note": null
+      "id": "insight-humanoid-hierarchy",
+      "type": "Insight",
+      "title": "人形：分层动作 + 可复用 WBC 接口",
+      "date": "2026-10-28",
+      "relatedPapers": [
+        "paper-haf-vla",
+        "paper-wholebody-wam"
+      ],
+      "topics": [
+        "topic-vla",
+        "topic-wbc",
+        "topic-wam"
+      ],
+      "body": "核心问题从「会不会抓」变成「基座/腰姿错了会不会逼上身补偿」。HAF-VLA 从动作生成侧写结构；WholeBodyWAM 从先验接 WBC 接口侧写结构——同一叙事的两端。",
+      "sourceFile": "content/insights/insight-humanoid-hierarchy.md"
     },
     {
-      "id": "e-30-digest-2026-10-28-paper-adarsi",
-      "source": "digest-2026-10-28",
-      "target": "paper-adarsi",
-      "type": "discussed_in",
-      "note": null
-    },
+      "id": "insight-rsi-budget",
+      "type": "Insight",
+      "title": "RSI 要回答：先改谁、何时改权重",
+      "date": "2026-10-28",
+      "relatedPapers": [
+        "paper-adarsi"
+      ],
+      "topics": [
+        "topic-rsi",
+        "topic-agentic"
+      ],
+      "body": "物理 RSI 若没有可验证反馈与安全护栏，很容易变成不可控的在线微调。AdaRSI 的「先 harness、后权重、按预算」是可工程化的默认策略，值得当作研究假设的基线。",
+      "sourceFile": "content/insights/insight-rsi-budget.md"
+    }
+  ],
+  "digests": [
     {
-      "id": "e-31-digest-2026-10-28-paper-fast-vla",
-      "source": "digest-2026-10-28",
-      "target": "paper-fast-vla",
-      "type": "discussed_in",
-      "note": null
-    },
-    {
-      "id": "e-32-digest-2026-10-28-paper-wholebody-wam",
-      "source": "digest-2026-10-28",
-      "target": "paper-wholebody-wam",
-      "type": "discussed_in",
-      "note": null
+      "id": "digest-2026-10-28",
+      "type": "Digest",
+      "title": "2026-10-28 首轮候选五篇",
+      "date": "2026-10-28",
+      "papers": [
+        "paper-pact-vla",
+        "paper-haf-vla",
+        "paper-adarsi",
+        "paper-fast-vla",
+        "paper-wholebody-wam"
+      ],
+      "body": "首日简报候选池：PACT-VLA、HAF-VLA、AdaRSI、Fast-VLA、WholeBodyWAM。建议从中挑 0–1 篇精读，其余 skim。",
+      "sourceFile": "content/digests/digest-2026-10-28.md"
     }
   ]
 }

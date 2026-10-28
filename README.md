@@ -1,94 +1,95 @@
 # 机器人控制知识谱系（phd-robotics-atlas）
 
-博士个人知识图谱站点：沉淀论文（Paper）、阅读与讨论观点（Insight）、研究主题（Topic）与每日简报（Digest），并用可交互力导向图展示工作之间的连接。
+博士个人**领域知识谱系**站点：论文（Paper）、主题（Topic）、方法路线（Method）构成可交互力导向图；阅读笔记（Insight）与每日简报（Digest）**不进入图谱**，在侧栏与独立页面展示。
 
-- **本地路径**：`/workspace/phd-robotics-atlas`
-- **技术栈**：Vite + 原生 ES Module + [force-graph](https://github.com/vasturiano/force-graph)（2D）
-- **数据真相源**：`content/` 下的 Markdown + `content/edges.yaml`，由脚本编译为 `data/graph.json` / `public/graph.json`
-- **部署**：GitHub Pages（base path `/phd-robotics-atlas/`）
+- **技术栈**：Vite + 原生 ES Module + [force-graph](https://github.com/vasturiano/force-graph)
+- **数据真相源**：`content/` Markdown + `content/edges.yaml` → `npm run build:data` → `public/graph.json`
+- **部署**：GitHub Pages（base `/phd-robotics-atlas/`）
+- **线上**：<https://daisy-butter.github.io/phd-robotics-atlas/>
+
+数据模型详见 [SCHEMA.md](./SCHEMA.md)。
 
 ## 功能
 
-- 暗色学术风全屏图谱：节点按类型着色，边按关系类型区分
-- Hover 标签、点击侧栏详情（团队 / 时间 / 核心 idea / 论文链 / 项目链）
-- 搜索过滤、按 Topic 高亮子图、拖拽 / 缩放 / 复位
-- Hash 路由：`#/` 图谱，`#/papers` 论文列表
+- 深色学术风图谱：默认 **Paper + Topic + Method** 核心层，可按类型筛选
+- 节点形状区分类型；边图例；搜索 / Topic 芯片过滤；点击高亮邻域
+- 侧栏：论文元数据、**阅读笔记（不进图）**、谱系边、LLM 抽取辅助面板
+- 路由：`#/` 图谱 · `#/papers` 论文 · `#/digests` 简报
 
 ## 本地开发
 
 ```bash
-cd phd-robotics-atlas
 npm install
-npm run build:data   # content → graph.json
+npm run build:data
 npm run dev          # http://localhost:5173/phd-robotics-atlas/
-npm run build        # 产出 dist/，可挂 Pages
-npm run preview      # 预览构建结果
+npm run build
+npm run preview
 ```
 
-> 开发服务器与 Pages 一样使用 base `/phd-robotics-atlas/`，请打开带该前缀的 URL。
+## 添加论文
 
-## 如何添加一篇论文
+1. `content/papers/your-slug.md`（见 SCHEMA.md 示例）
+2. 可选：`content/insights/` 写笔记，`relatedPapers: [paper-…]`
+3. 在 `content/edges.yaml` 补边；`topics` / `methods` 数组会自动生成 `belongs_to_topic` / `uses_method`
+4. `npm run build:data`
 
-1. 在 `content/papers/` 新建 `your-slug.md`，YAML frontmatter 至少包含：
+## Qwen3-7B + vLLM（不在浏览器 / Pages 内运行）
 
-```yaml
----
-id: paper-your-slug          # 全局唯一
-type: Paper
-title: "论文标题"
-team: "机构 / 团队"
-date: "YYYY-MM-DD"
-coreIdea: "一句话核心 idea"
-paperUrl: "https://arxiv.org/abs/..."
-projectUrl: null              # 或项目页 / GitHub URL
-topics: [topic-vla, topic-wbc]
----
+GitHub Pages 是纯静态托管，**无法在访客浏览器或 Pages 上跑 7B GPU 模型**。本仓库提供：
 
-可选正文：精读笔记摘要……
-```
+| 组件 | 作用 |
+|------|------|
+| `docker-compose.vllm.yml` | 本地/服务器 GPU 上启动 vLLM OpenAI 兼容 API（默认 `Qwen/Qwen3-7B`，端口 8000） |
+| `scripts/llm_extract.py` | CLI：把论文摘要发给 vLLM，输出建议的 `methods` 与边 JSON |
+| 前端 `src/config.js` | `VITE_LLM_MOCK`（默认 mock）与 `VITE_LLM_API_URL` |
 
-2. （可选）在 `content/insights/` 写一条 Insight，`relatedPapers` 指向该论文 id。
-3. 在 `content/edges.yaml` 补充边（见 [SCHEMA.md](./SCHEMA.md)）。
-4. 运行 `npm run build:data`，刷新页面。
-
-脚本也会根据 `topics` / `relatedPapers` / `papers` 字段**自动补** `motivates` 与 `discussed_in` 边（若尚未手写）。
-
-## GitHub 仓库与 Pages（需你在 GitHub 上操作）
-
-本仓库**故意未配置 `git remote`**，避免误推到其他仓库。你在 GitHub 上新建**空仓库** `phd-robotics-atlas`（建议账号 Daisy-Butter）后：
+### 启动 vLLM（需 NVIDIA GPU + Container Toolkit）
 
 ```bash
-cd phd-robotics-atlas
-git remote add origin git@github.com:Daisy-Butter/phd-robotics-atlas.git
-# 或 https://github.com/Daisy-Butter/phd-robotics-atlas.git
-git push -u origin main
+docker compose -f docker-compose.vllm.yml up -d
+# API: http://127.0.0.1:8000/v1/chat/completions
 ```
 
-然后：
+### CLI 抽取示例
 
-1. 仓库 **Settings → Pages**
-2. Source 选 **GitHub Actions**（本仓已含 `.github/workflows/deploy-pages.yml`）
-3. 等待 workflow 跑完后访问：  
-   `https://Daisy-Butter.github.io/phd-robotics-atlas/`
+```bash
+export VLLM_BASE_URL=http://127.0.0.1:8000/v1
+python3 scripts/llm_extract.py --text-file content/papers/pact-vla.md
+```
 
-若仓库名不是 `phd-robotics-atlas`，请同步修改 `vite.config.js` 里的 `base`。
+### 前端连接真实 API（开发机）
+
+创建 `.env.local`：
+
+```env
+VITE_LLM_MOCK=false
+VITE_LLM_API_URL=http://127.0.0.1:8000/v1/chat/completions
+VITE_LLM_MODEL=Qwen/Qwen3-7B
+```
+
+重新 `npm run dev`。在图谱中选中 Paper，侧栏点击「从摘要建议 Method / 边」。  
+生产 Pages 构建若不注入上述变量，则保持 **Mock**，不会假装在浏览器里跑 7B。
+
+> 若 API 与 Pages 不同源，需自行配置 CORS 或通过同源反向代理；静态站本身不包含 GPU 推理。
 
 ## 目录结构
 
 ```
 content/
-  papers/ insights/ topics/ digests/   # Markdown 源
-  edges.yaml                           # 边定义
-data/graph.json                        # 编译产物（亦复制到 public/）
-src/                                   # 前端
-scripts/build-graph.mjs                # 编译脚本
+  papers/ topics/ methods/ insights/ digests/
+  edges.yaml
+data/graph.json
+scripts/build-graph.mjs
+scripts/llm_extract.py
+docker-compose.vllm.yml
+src/
 .github/workflows/deploy-pages.yml
 ```
 
-## 许可
-
-私人博士知识库；论文元数据与观点仅供个人学习研究使用。
-
 ## GitHub Pages
 
-站点由 **GitHub Actions** 发布（工作流：`.github/workflows/deploy-pages.yml`）。线上地址：<https://daisy-butter.github.io/phd-robotics-atlas/>。
+仓库 Settings → Pages → Source：**GitHub Actions**（`.github/workflows/deploy-pages.yml`）。
+
+## 许可
+
+私人博士知识库；论文元数据与笔记仅供个人学习研究使用。

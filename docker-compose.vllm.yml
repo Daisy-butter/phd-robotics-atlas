@@ -1,0 +1,35 @@
+# 本地 GPU 服务器启动 vLLM（Qwen3-7B OpenAI 兼容 API）
+# 用法：docker compose -f docker-compose.vllm.yml up -d
+# API：http://127.0.0.1:8000/v1/chat/completions
+#
+# 需要 NVIDIA Container Toolkit 与足够显存（7B 约 16GB+ 视量化而定）。
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    ports:
+      - "8000:8000"
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command:
+      - --model
+      - Qwen/Qwen3-7B
+      - --host
+      - "0.0.0.0"
+      - --port
+      - "8000"
+      - --max-model-len
+      - "8192"
+    environment:
+      - HF_HOME=/root/.cache/huggingface
+    volumes:
+      - huggingface_cache:/root/.cache/huggingface
+
+volumes:
+  huggingface_cache:
